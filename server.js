@@ -9,12 +9,13 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const session   = require("express-session");
 const { S3Client, PutObjectCommand, GetObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-
+const rawFrontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+const frontendUrl = rawFrontendUrl.endsWith('/') ? rawFrontendUrl.slice(0, -1) : rawFrontendUrl;
 const app = express();
 
 // --- CONFIGURATION ---
 app.use(cors({ 
-    origin: process.env.FRONTEND_URL || "http://localhost:5173", 
+    origin: frontendUrl, 
     credentials: true 
 }));
 app.use(express.json());
