@@ -18,6 +18,9 @@ app.use(cors({
     credentials: true 
 }));
 app.use(express.json());
+app.get("/", (req, res) => {
+  res.json({ status: "✅ DAGOAUTO API en ligne" });
+});
 app.use(session({ 
     secret: process.env.JWT_SECRET, 
     resave: false, 
