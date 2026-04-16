@@ -100,7 +100,11 @@ passport.deserializeUser(async (id, d) => {
 });
 
 // --- ROUTES AUTHENTIFICATION ---
-app.get("/api/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+app.get("/api/auth/google", passport.authenticate("google", { 
+  scope: ["profile", "email"],
+  prompt: "select_account consent", // <--- AJOUTEZ CECI
+  accessType: "offline"
+}));
 app.get("/api/auth/google/callback", passport.authenticate("google", { failureRedirect: "/login" }), (req, res) => {
     const token = jwt.sign({ id: req.user.id, isAdmin: false }, process.env.JWT_SECRET);
     res.redirect(`${process.env.FRONTEND_URL}/?token=${token}`);
